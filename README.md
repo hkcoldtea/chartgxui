@@ -40,11 +40,17 @@ It has only limited experience of dealing with market data. Use at your own risk
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+chartgxui is written in Go.
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
 ### Built With
+
+go build -o chartgxui -tags debug (Debug purpose)
+
+This will create an executable file named chartgxui that's ready to run.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -58,12 +64,16 @@ It has only limited experience of dealing with market data. Use at your own risk
 
 ### Installation
 
+go get github.com/hkcoldtea/chartgxui
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+
+./chartgxui -d HSI.csv
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -93,12 +103,18 @@ Contributions are what make the open source community such an amazing place to l
 <!-- LICENSE -->
 ## License
 
+chartgxui is open source software released under the MIT License. The latest version can be found at https://github.com/hkcoldtea/chartgxui
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
 <!-- CONTACT -->
 ## Contact
+
+My home page can be found at
+
+ *  http://www.hkcoldtea.com/about
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

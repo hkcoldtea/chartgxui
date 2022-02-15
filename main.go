@@ -46,6 +46,18 @@ func appMain(driver gxui.Driver) {
 
 	window.AddChild(img)
 	window.OnClose(driver.Terminate)
+	window.OnKeyDown(func(ev gxui.KeyboardEvent) {
+		switch ev.Key {
+		case gxui.KeyEnter:
+			fallthrough
+		case gxui.KeyEscape:
+			fallthrough
+		case gxui.KeyKpEnter:
+			fallthrough
+		case gxui.KeySpace:
+			window.Close()
+		}
+	})
 }
 
 // CreateTheme creates and returns the theme specified on the command line.
@@ -81,7 +93,7 @@ func main() {
 			flag.Usage()
 			return
 		}
-		fname = flag.Args()[0]
+		fname = flag.Arg(0)
 	}
 	gl.StartDriver(appMain)
 }
