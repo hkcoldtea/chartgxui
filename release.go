@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -23,8 +24,8 @@ func readCSVFromUrl(url string) ([][]string, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	defer resp.Body.Close()
+
 	reader := csv.NewReader(resp.Body)
 	reader.Comma = ','
 	data, err := reader.ReadAll()
@@ -74,10 +75,18 @@ func GetDataFromURL(url string) ([]time.Time, []float64) {
 				continue
 			}
 			ts := record[0]
-			parsed, _ := time.Parse(chart.DefaultDateFormat, ts)
-			dates = append(dates, parsed)
-			closeP, _ := strconv.ParseFloat(record[4], 64)
-			elapsed = append(elapsed, closeP)
+			parsed, err := time.Parse(chart.DefaultDateFormat, ts)
+			if err == nil {
+				closeP, err := strconv.ParseFloat(record[4], 64)
+				if err == nil {
+					dates = append(dates, parsed)
+					elapsed = append(elapsed, closeP)
+				}
+			}
+		}
+		if len(resp)-1 > len(elapsed) {
+			fmt.Fprintln(os.Stderr, "Number of invalid records =", len(resp)-1-len(elapsed))
+			writeCsvFile(resp)
 		}
 	}
 	return dates, elapsed

@@ -18,6 +18,7 @@ func readCsvFile(filePath string) ([][]string, error) {
 	defer f.Close()
 
 	csvReader := csv.NewReader(f)
+	csvReader.Comma = ','
 	records, err := csvReader.ReadAll()
 	if err != nil {
 		log.Fatal("Unable to parse file as CSV for "+filePath, err)
@@ -38,10 +39,17 @@ func GetDataFromFile(fname string) ([]time.Time, []float64) {
 				continue
 			}
 			ts := record[0]
-			parsed, _ := time.Parse(chart.DefaultDateFormat, ts)
-			dates = append(dates, parsed)
-			closeP, _ := strconv.ParseFloat(record[4], 64)
-			elapsed = append(elapsed, closeP)
+			parsed, err := time.Parse(chart.DefaultDateFormat, ts)
+			if err == nil {
+				closeP, err := strconv.ParseFloat(record[4], 64)
+				if err == nil {
+					dates = append(dates, parsed)
+					elapsed = append(elapsed, closeP)
+				}
+			}
+		}
+		if len(resp)-1 > len(elapsed) {
+			log.Println("Number of invalid records =", len(resp)-1-len(elapsed))
 		}
 	}
 	return dates, elapsed
